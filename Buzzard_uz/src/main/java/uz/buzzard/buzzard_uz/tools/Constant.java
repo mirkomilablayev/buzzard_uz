@@ -5,5 +5,7 @@ public interface Constant {
     String USER = "ADMINISTRATOR";
     String STUDENT = "TEACHER";
     String TEACHER = "STUDENT";
-    String filePaths = "";
+
+
+    String filePaths = "D:\\rasmlar";
 }

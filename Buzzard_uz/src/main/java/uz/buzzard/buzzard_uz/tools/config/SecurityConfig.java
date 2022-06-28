@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import uz.crm.crmbackend.service.auth.AuthService;
-import uz.crm.crmbackend.service.jwt.JwtFilter;
+import uz.buzzard.buzzard_uz.service.auth.AuthService;
+import uz.buzzard.buzzard_uz.service.auth.jwt.JwtFilter;
 
 @Configuration
 @RequiredArgsConstructor

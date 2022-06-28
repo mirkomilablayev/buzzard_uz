@@ -3,7 +3,7 @@ package uz.buzzard.buzzard_uz.service.auth.jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
-import uz.crm.crmbackend.entity.UserRole;
+import uz.buzzard.buzzard_uz.entity.UserRole;
 
 import java.util.Date;
 import java.util.Set;

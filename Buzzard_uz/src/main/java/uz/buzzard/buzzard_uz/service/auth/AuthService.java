@@ -9,22 +9,21 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import uz.crm.crmbackend.dto.auth.RegisterDto;
-import uz.crm.crmbackend.entity.User;
-import uz.crm.crmbackend.entity.UserRole;
-import uz.crm.crmbackend.repository.user.RoleRepo;
-import uz.crm.crmbackend.repository.user.UserRepo;
-import uz.crm.crmbackend.service.BaseService;
-import uz.crm.crmbackend.tools.exceptions.ResourceNotFoundException;
-import uz.crm.crmbackend.tools.exceptions.UserRoleNotFoundException;
-import uz.crm.crmbackend.tools.exceptions.UsernameAlreadyRegisterException;
+import uz.buzzard.buzzard_uz.dto.auth.RegisterDto;
+import uz.buzzard.buzzard_uz.entity.User;
+import uz.buzzard.buzzard_uz.entity.UserRole;
+import uz.buzzard.buzzard_uz.repository.entity.RoleRepo;
+import uz.buzzard.buzzard_uz.repository.entity.UserRepo;
+import uz.buzzard.buzzard_uz.tools.exceptions.ResourceNotFoundException;
+import uz.buzzard.buzzard_uz.tools.exceptions.UserRoleNotFoundException;
+import uz.buzzard.buzzard_uz.tools.exceptions.UsernameAlreadyRegisterException;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements UserDetailsService , BaseService {
+public class AuthService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
@@ -38,9 +37,8 @@ public class AuthService implements UserDetailsService , BaseService {
             Set<UserRole> userRoles = new HashSet<>();
             UserRole userRole = roleRepo.findByNameAndIsActive("USER",true).orElseThrow(() -> new UserRoleNotFoundException(user_role + " not found"));
             userRoles.add(userRole);
+            user.setFullName(registerDto.getFullName());
             user.setUsername(registerDto.getUsername());
-            user.setFirstName(registerDto.getFirstName());
-            user.setLastName(registerDto.getLastName());
             user.setUserRoleSet(userRoles);
             return ResponseEntity.status(HttpStatus.OK).body(userRepo.save(user));
         }

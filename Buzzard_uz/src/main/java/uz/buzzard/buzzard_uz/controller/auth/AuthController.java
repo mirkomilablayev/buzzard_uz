@@ -8,12 +8,15 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.*;
-import uz.crm.crmbackend.dto.auth.LoginDto;
-import uz.crm.crmbackend.dto.auth.RegisterDto;
-import uz.crm.crmbackend.entity.User;
-import uz.crm.crmbackend.service.auth.AuthService;
-import uz.crm.crmbackend.service.jwt.JwtProvider;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import uz.buzzard.buzzard_uz.dto.auth.LoginDto;
+import uz.buzzard.buzzard_uz.dto.auth.RegisterDto;
+import uz.buzzard.buzzard_uz.entity.User;
+import uz.buzzard.buzzard_uz.service.auth.AuthService;
+import uz.buzzard.buzzard_uz.service.auth.jwt.JwtProvider;
 
 @RestController
 @RequestMapping("/api/auth")

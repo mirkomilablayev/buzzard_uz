@@ -1,8 +1,8 @@
-package uz.buzzard.buzzard_uz.repository.user;
+package uz.buzzard.buzzard_uz.repository.entity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import uz.crm.crmbackend.entity.UserRole;
-import uz.crm.crmbackend.repository.BaseRepository;
+import uz.buzzard.buzzard_uz.entity.UserRole;
+import uz.buzzard.buzzard_uz.repository.BaseRepository;
 
 import java.util.Optional;
 

@@ -6,7 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import uz.crm.crmbackend.service.auth.AuthService;
+import uz.buzzard.buzzard_uz.service.auth.AuthService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

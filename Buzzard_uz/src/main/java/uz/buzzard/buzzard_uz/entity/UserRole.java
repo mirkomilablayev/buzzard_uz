@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import uz.crm.crmbackend.entity.baseEntities.BaseEntity;
-import uz.crm.crmbackend.entity.baseEntities.BaseEntityId;
+import uz.buzzard.buzzard_uz.entity.baseEntities.BaseEntityId;
 
 import javax.persistence.Entity;
 
@@ -13,7 +12,7 @@ import javax.persistence.Entity;
 @Getter
 @NoArgsConstructor
 @Entity(name = "user_roles")
-public class UserRole extends BaseEntityId implements GrantedAuthority, BaseEntity {
+public class UserRole extends BaseEntityId implements GrantedAuthority {
     private String name;
     private Boolean isActive = true;
     @Override
