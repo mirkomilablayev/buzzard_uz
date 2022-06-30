@@ -14,6 +14,6 @@ public class PostDto {
     private String title;
     @Column(nullable = false)
     private String text;
-    @Column(nullable = true)
+    @Column(nullable = false)
     private Long fileId;
 }

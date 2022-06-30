@@ -20,4 +20,5 @@ public class Post extends BaseEntityId {
     private String text;
     @ManyToOne
     private File file;
+    private Boolean isDeleted = false;
 }

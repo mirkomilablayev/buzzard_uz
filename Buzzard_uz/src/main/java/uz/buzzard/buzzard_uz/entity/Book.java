@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.buzzard.buzzard_uz.entity.baseEntities.BaseEntityId;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import java.time.LocalDateTime;
 
@@ -14,7 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 public class Book extends BaseEntityId {
+    @Column(nullable = false)
     private String fullName;
+    @Column(nullable = false)
     private String phoneNumber;
-    private LocalDateTime bookedAt;
+    private Boolean isActive = true;
+    private LocalDateTime bookedAt = LocalDateTime.now();
 }

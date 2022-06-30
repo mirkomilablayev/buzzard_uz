@@ -11,7 +11,7 @@ import uz.buzzard.buzzard_uz.service.services.PostService;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(name = "/api/post")
+@RequestMapping("/api/post")
 @RequiredArgsConstructor
 public class PostController {
 

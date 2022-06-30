@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,7 +34,7 @@ public class PostService {
 
         Iterator<String> fileNames = request.getFileNames();
         MultipartFile file = request.getFile(fileNames.next());
-        if (file != null){
+        if (file != null) {
             File newFile = new File();
             newFile.setContentType(file.getContentType());
             newFile.setContentSize(file.getSize());
@@ -41,11 +42,11 @@ public class PostService {
             newFile.setOriginalName(originalFilename);
 
             assert originalFilename != null;
-            String generatedName = UUID.randomUUID()+"."+originalFilename.split("\\.")[originalFilename.split("\\.").length-1];
+            String generatedName = UUID.randomUUID() + "." + originalFilename.split("\\.")[originalFilename.split("\\.").length - 1];
             newFile.setGeneratedName(generatedName);
             File save = fileRepo.save(newFile);
             Path path = Paths.get(Constant.filePaths + "/" + generatedName);
-            Files.copy(file.getInputStream(),path);
+            Files.copy(file.getInputStream(), path);
             return ResponseEntity.status(HttpStatus.OK).body(save.getId());
         }
         return ResponseEntity.status(HttpStatus.CONFLICT).body("saqlanmadi");
@@ -53,7 +54,7 @@ public class PostService {
 
     public HttpEntity<?> createPost(PostDto postDto) {
         Post post = new Post();
-        post.setText(post.getText());
+        post.setText(postDto.getText());
         post.setTitle(postDto.getTitle());
         File file = fileRepo.findByIdAndIsDeleted(postDto.getFileId(), false).orElseThrow(() -> new ResourceNotFoundException(""));
         post.setFile(file);
@@ -62,6 +63,14 @@ public class PostService {
     }
 
     public HttpEntity<?> deleteById(Long postId) {
-        return null;
+        Optional<Post> postOptional = postRepo.findByIdAndIsDeleted(postId, false);
+        if (postOptional.isPresent()) {
+            Post post = postOptional.get();
+            post.setIsDeleted(true);
+            postRepo.save(post);
+            return ResponseEntity.status(HttpStatus.OK).body("Successfully deleted");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post Doesn't exist");
+        }
     }
 }
