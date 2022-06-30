@@ -9,6 +9,7 @@ import uz.buzzard.buzzard_uz.service.services.BookService;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/book")
 public class BookController {
 
