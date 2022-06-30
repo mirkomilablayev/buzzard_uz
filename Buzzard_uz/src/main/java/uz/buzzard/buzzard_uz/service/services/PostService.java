@@ -10,6 +10,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.buzzard.buzzard_uz.dto.dto.PostDto;
+import uz.buzzard.buzzard_uz.dto.dto.PostShortInfoDto;
+import uz.buzzard.buzzard_uz.dto.dto.PostShowDto;
 import uz.buzzard.buzzard_uz.entity.File;
 import uz.buzzard.buzzard_uz.entity.Post;
 import uz.buzzard.buzzard_uz.repository.repositories.FileRepo;
@@ -24,9 +26,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -49,8 +49,10 @@ public class PostService {
             assert originalFilename != null;
             String generatedName = UUID.randomUUID() + "." + originalFilename.split("\\.")[originalFilename.split("\\.").length - 1];
             newFile.setGeneratedName(generatedName);
+            String filePath = Constant.filePaths + "/" + generatedName;
+            newFile.setFilePath(filePath);
             File save = fileRepo.save(newFile);
-            Path path = Paths.get(Constant.filePaths + "/" + generatedName);
+            Path path = Paths.get(filePath);
             Files.copy(file.getInputStream(), path);
             return ResponseEntity.status(HttpStatus.OK).body(save.getId());
         }
@@ -93,5 +95,27 @@ public class PostService {
                 throw new Exception();
             }
         }
+    }
+
+    public HttpEntity<?> getPosts(Long postId) {
+        Post post = postRepo.findByIdAndIsDeleted(postId, false).orElseThrow(() -> new ResourceNotFoundException(""));
+        List<Post> allPost = postRepo.findAll();
+        allPost.removeIf(post1 -> post1.getId().equals(post.getId()));
+        PostShowDto postShowDto = new PostShowDto();
+        postShowDto.setId(post.getId());
+        postShowDto.setText(post.getText());
+        postShowDto.setTitle(post.getTitle());
+        postShowDto.setFileId(post.getFile().getId());
+        List<PostShortInfoDto> d = new ArrayList<>();
+        allPost.forEach(b -> {
+            if (!b.getId().equals(post.getId())){
+                PostShortInfoDto a = new PostShortInfoDto();
+                a.setId(b.getId());
+                a.setTitle(post.getTitle());
+                d.add(a);
+            }
+        });
+        postShowDto.setPosts(d);
+        return ResponseEntity.status(HttpStatus.OK).body(postShowDto);
     }
 }

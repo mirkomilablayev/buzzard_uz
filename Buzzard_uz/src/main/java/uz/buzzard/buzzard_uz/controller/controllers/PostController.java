@@ -38,5 +38,9 @@ public class PostController {
        postService.download(id, response);
     }
 
+    public HttpEntity<?> getPosts(@RequestParam(defaultValue = "1") Long postId){
+        return postService.getPosts(postId);
+    }
+
 
 }
