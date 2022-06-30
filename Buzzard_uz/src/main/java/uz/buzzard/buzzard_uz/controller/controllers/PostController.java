@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.buzzard.buzzard_uz.dto.dto.PostDto;
 import uz.buzzard.buzzard_uz.service.services.PostService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
@@ -31,5 +32,11 @@ public class PostController {
     public HttpEntity<?> deleteById(@PathVariable Long postId){
         return postService.deleteById(postId);
     }
+
+        @GetMapping("/showPicture/{id}")
+    public void showPicture(@PathVariable Long id, HttpServletResponse response) throws Exception {
+       postService.download(id, response);
+    }
+
 
 }
