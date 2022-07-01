@@ -14,5 +14,4 @@ public class PostShowDto {
     private Long fileId;
     private String title;
     private String text;
-    private List<PostShortInfoDto> posts;
 }

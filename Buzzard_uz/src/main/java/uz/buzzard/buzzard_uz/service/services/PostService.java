@@ -10,14 +10,12 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.buzzard.buzzard_uz.dto.dto.PostDto;
-import uz.buzzard.buzzard_uz.dto.dto.PostShortInfoDto;
 import uz.buzzard.buzzard_uz.dto.dto.PostShowDto;
 import uz.buzzard.buzzard_uz.entity.File;
 import uz.buzzard.buzzard_uz.entity.Post;
 import uz.buzzard.buzzard_uz.repository.repositories.FileRepo;
 import uz.buzzard.buzzard_uz.repository.repositories.PostRepo;
 import uz.buzzard.buzzard_uz.tools.Constant;
-import uz.buzzard.buzzard_uz.tools.exceptions.ExceptionUniversal;
 import uz.buzzard.buzzard_uz.tools.exceptions.ResourceNotFoundException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -97,25 +95,17 @@ public class PostService {
         }
     }
 
-    public HttpEntity<?> getPosts(Long postId) {
-        Post post = postRepo.findByIdAndIsDeleted(postId, false).orElseThrow(() -> new ResourceNotFoundException(""));
-        List<Post> allPost = postRepo.findAll();
-        allPost.removeIf(post1 -> post1.getId().equals(post.getId()));
-        PostShowDto postShowDto = new PostShowDto();
-        postShowDto.setId(post.getId());
-        postShowDto.setText(post.getText());
-        postShowDto.setTitle(post.getTitle());
-        postShowDto.setFileId(post.getFile().getId());
-        List<PostShortInfoDto> d = new ArrayList<>();
-        allPost.forEach(b -> {
-            if (!b.getId().equals(post.getId())){
-                PostShortInfoDto a = new PostShortInfoDto();
-                a.setId(b.getId());
-                a.setTitle(post.getTitle());
-                d.add(a);
-            }
-        });
-        postShowDto.setPosts(d);
-        return ResponseEntity.status(HttpStatus.OK).body(postShowDto);
+    public HttpEntity<?> getPosts() {
+        List<Post> all = postRepo.findAllByIsDeleted(false);
+        List<PostShowDto> postShowDtoList = new ArrayList<>();
+        for (Post post : all) {
+            PostShowDto postShowDto = new PostShowDto();
+            postShowDto.setFileId(post.getFile().getId());
+            postShowDto.setId(post.getId());
+            postShowDto.setTitle(post.getTitle());
+            postShowDto.setText(post.getText());
+            postShowDtoList.add(postShowDto);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(postShowDtoList);
     }
 }
